@@ -15,6 +15,18 @@ module FCC4D
       @push ||= FCC4D::Push.new self
     end
 
+    def lookup
+      @lookup ||= FCC4D::Lookup.new self
+    end
+
+    def countries
+      @countries ||= FCC4D::Countries.new self
+    end
+
+    def get content_type, api_call_path
+      api_call content_type, Net::HTTP::Get, api_call_path, nil
+    end
+
     def post content_type, api_call_path, data
       api_call content_type, Net::HTTP::Post, api_call_path, data
     end
@@ -33,14 +45,16 @@ module FCC4D
       path = File.join(@uri.to_s, api_call_path) 
 
       request = request_class.new(path, headers[content_type])
-      if @username.present? && @password.present?
+      if @username && @password
         request.basic_auth @username, @password
       end
 
-      if content_type == :json
-        request.body = data.to_json
-      elsif content_type == :form
-        request.form_data = data
+      if data
+        if content_type == :json
+          request.body = data.to_json
+        elsif content_type == :form
+          request.form_data = data
+        end
       end
 
       connection = Net::HTTP.new(@uri.hostname, @uri.port)
@@ -67,7 +81,7 @@ module FCC4D
     end
 
     def authorization_header
-      if @auth_token.present?
+      if @auth_token
         {'Authorization' => "Bearer #@auth_token"}
       else
         {}
