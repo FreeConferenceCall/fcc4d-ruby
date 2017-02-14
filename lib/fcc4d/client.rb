@@ -5,6 +5,7 @@ module FCC4D
       @username = options[:username]
       @password = options[:password]
       @uri = URI(options[:endpoint] || 'https://api-fcc4d.freeconferencecall.com/v2/api/')
+      @timeout = options[:timeout].to_i
     end
 
     def sms
@@ -57,8 +58,14 @@ module FCC4D
         end
       end
 
+
       connection = Net::HTTP.new(@uri.hostname, @uri.port)
       connection.use_ssl = @uri.scheme == 'https'
+
+      if @timeout > 0
+        connection.read_timeout = @timeout
+        connection.open_timeout = @timeout
+      end
 
       response = connection.start do |http|
         http.request(request)
