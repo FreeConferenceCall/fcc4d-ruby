@@ -1,10 +1,16 @@
 module FCC4D
   class Client
+    attr_reader :client_id, :client_secret
+
     def initialize options = {}
       @auth_token = options[:auth_token]
+      @token_type = (options[:token_type].to_s || 'bearer').capitalize
       @username = options[:username]
       @password = options[:password]
-      @uri = URI(options[:endpoint] || 'https://api-fcc4d.freeconferencecall.com/v2/api/')
+      @uri = URI(options[:endpoint] || 'https://api-fcc4d.freeconferencecall.com')
+      @client_id = options[:client_id]
+      @client_secret = options[:client_secret]
+      @debug_http = options[:debug_http]
       @timeout = options[:timeout].to_i
     end
 
@@ -22,6 +28,14 @@ module FCC4D
 
     def countries
       @countries ||= FCC4D::Countries.new self
+    end
+
+    def oauth
+      @oauth ||= FCC4D::V2::OAuth.new self
+    end
+
+    def partners
+      @partners ||= FCC4D::V2::API::Partners.new self
     end
 
     def get content_type, api_call_path
@@ -46,8 +60,11 @@ module FCC4D
       path = File.join(@uri.to_s, api_call_path) 
 
       request = request_class.new(path, headers[content_type])
-      if @username && @password
-        request.basic_auth @username, @password
+
+      unless @auth_token
+        if @username && @password
+          request.basic_auth @username, @password
+        end
       end
 
       if data
@@ -61,10 +78,11 @@ module FCC4D
 
       connection = Net::HTTP.new(@uri.hostname, @uri.port)
       connection.use_ssl = @uri.scheme == 'https'
+      connection.set_debug_output $stderr if @debug_http == true
+
 
       if @timeout > 0
-        connection.read_timeout = @timeout
-        connection.open_timeout = @timeout
+        connection.read_timeout = connection.open_timeout = @timeout
       end
 
       response = connection.start do |http|
@@ -89,7 +107,7 @@ module FCC4D
 
     def authorization_header
       if @auth_token
-        {'Authorization' => "Bearer #@auth_token"}
+        {'Authorization' => "#@token_type #@auth_token"}
       else
         {}
       end
