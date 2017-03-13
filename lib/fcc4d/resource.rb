@@ -11,7 +11,7 @@ module FCC4D
     def api_path location = nil, query_params = nil 
       path = @resource_path
       if location
-        path = File.join(path, location)
+        path = File.join(path, *location)
       end
       if query_params.is_a? Hash
         path += '?' + URI.encode_www_form(query_params)

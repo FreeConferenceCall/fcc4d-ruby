@@ -38,11 +38,15 @@ module FCC4D
       @partners ||= FCC4D::V2::API::Partners.new self
     end
 
+    def verification
+      @verification ||= FCC4D::V2::API::Verification.new self
+    end
+
     def get content_type, api_call_path
       api_call content_type, Net::HTTP::Get, api_call_path, nil
     end
 
-    def post content_type, api_call_path, data
+    def post content_type, api_call_path, data = nil
       api_call content_type, Net::HTTP::Post, api_call_path, data
     end
 
