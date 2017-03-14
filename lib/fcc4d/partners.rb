@@ -13,7 +13,10 @@ module FCC4D
             state: options[:state],
             zip: options[:zip],
             country_code: options[:country_code],
-            payment_type: options[:payment_type]
+            payment_type: options[:payment_type],
+            owner_email: options[:owner_email],
+            billing_email: options[:billing_email],
+            tech_email: options[:tech_email]
           }
 
           client.post @content_type, api_path, params
