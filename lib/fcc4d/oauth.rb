@@ -14,6 +14,10 @@ module FCC4D
 
         client.post @content_type, api_path('token', params), nil
       end
+
+      def whoami
+        client.get @content_type, api_path('whoami')
+      end
     end
   end
 end
