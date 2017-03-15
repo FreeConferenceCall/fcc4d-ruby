@@ -16,7 +16,8 @@ module FCC4D
             payment_type: options[:payment_type],
             owner_email: options[:owner_email],
             billing_email: options[:billing_email],
-            tech_email: options[:tech_email]
+            tech_email: options[:tech_email],
+            company_name: options[:company_name]
           }
 
           client.post @content_type, api_path, params
