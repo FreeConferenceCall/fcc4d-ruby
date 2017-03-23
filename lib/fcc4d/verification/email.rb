@@ -9,7 +9,7 @@ module FCC4D
               email_template_sid: options[:email_template_sid],
               base_url: options[:base_url]
             }
-            client.post @content_type, api_path('send'), params
+            client.post @content_type, api_path, params
           end
 
           def tokens token 
