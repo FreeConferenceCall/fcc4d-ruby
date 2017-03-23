@@ -12,8 +12,8 @@ module FCC4D
             client.post @content_type, api_path('send'), params
           end
 
-          def check token 
-            client.post @content_type, api_path(['check', token])
+          def tokens token 
+            client.get @content_type, api_path(['tokens', token])
           end
         end
 
