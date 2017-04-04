@@ -19,7 +19,7 @@ module FCC4D
     end
 
     def push
-      @push ||= FCC4D::Push.new self
+      @push ||= FCC4D::V2::API::Push.new self
     end
 
     def lookup
