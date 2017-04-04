@@ -15,7 +15,7 @@ module FCC4D
     end
 
     def sms
-      @sms ||= FCC4D::SMS.new self
+      @sms ||= FCC4D::V2::API::SMS.new self
     end
 
     def push

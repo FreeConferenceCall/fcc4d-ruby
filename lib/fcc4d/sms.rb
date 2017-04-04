@@ -1,30 +1,28 @@
 module FCC4D
-  class SMS 
-    def initialize client
-      @client = client
-      @api_path = 'sms'
-      @content_type = :form 
-    end
+  module V2
+    module API
+      class SMS < Resource
+        def verification options = {}
+          params = {
+            from_did: options[:from_did],
+            to_did: options[:to_did].to_s.gsub(/[^\d]/, ''),
+            message: options[:message] || 'Your verification code is '
+          }
 
-    def verification options = {}
-      params = {
-        from_did: options[:from_did],
-        to_did: options[:to_did].to_s.gsub(/[^\d]/, ''),
-        message: options[:message] || 'Your verification code is '
-      }
+          client.post @content_type, api_path('verification'), params
 
-      @client.post @content_type, File.join(@api_path, 'verification'), params
+        end
 
-    end
+        def create options = {}
+          params = {
+            from_did: options[:from_did],
+            to_did: options[:to_did].to_s.gsub(/[^\d]/, ''),
+            message: options[:message]
+          }
 
-    def create options = {}
-      params = {
-        from_did: options[:from_did],
-        to_did: options[:to_did].to_s.gsub(/[^\d]/, ''),
-        message: options[:message]
-      }
-
-      @client.post @content_type, File.join(@api_path, 'messages'), params
+          client.post @content_type, api_path('messages'), params
+        end
+      end
     end
   end
 end
