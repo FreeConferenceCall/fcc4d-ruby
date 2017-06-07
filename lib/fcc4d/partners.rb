@@ -23,6 +23,24 @@ module FCC4D
 
           client.post @content_type, api_path, params
         end
+
+        def search options
+          params = {
+            offset: options[:offset] || 0,
+            limit: options[:limit] || 0,
+            filter: options[:filter],
+            order: options[:order]
+          }
+          client.get @content_type, api_path(nil , params)
+        end
+
+        def patch sid, options
+          params = {
+            password: options[:password]
+          }
+          client.patch @content_type, api_path(sid), params
+
+        end
       end
     end
   end
