@@ -14,6 +14,8 @@ module FCC4D
             zip: options[:zip],
             country_code: options[:country_code],
             payment_type: options[:payment_type],
+            prepay_amount: options[:prepay_amount],
+            charge_at: options[:charge_at],
             owner_email: options[:owner_email],
             billing_email: options[:billing_email],
             tech_email: options[:tech_email],
