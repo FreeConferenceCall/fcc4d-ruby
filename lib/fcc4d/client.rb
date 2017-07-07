@@ -7,7 +7,7 @@ module FCC4D
       @token_type = (options[:token_type].to_s || 'bearer').capitalize
       @username = options[:username]
       @password = options[:password]
-      @uri = URI(options[:endpoint] || 'https://api-fcc4d.freeconferencecall.com')
+      @uri = URI(options[:endpoint] || 'https://api.carrierx.com')
       @client_id = options[:client_id]
       @client_secret = options[:client_secret]
       @debug_http = options[:debug_http]
@@ -15,31 +15,31 @@ module FCC4D
     end
 
     def sms
-      @sms ||= FCC4D::V2::API::SMS.new self
+      @sms ||= FCC4D::Core::V2::SMS.new self
     end
 
     def push
-      @push ||= FCC4D::V2::API::Push.new self
+      @push ||= FCC4D::Core::V2::Push.new self
     end
 
     def lookup
-      @lookup ||= FCC4D::Lookup.new self
+      @lookup ||= FCC4D::Core::V2::Lookup.new self
     end
 
     def countries
-      @countries ||= FCC4D::Countries.new self
+      @countries ||= FCC4D::Core::V2::Countries.new self
     end
 
     def oauth
-      @oauth ||= FCC4D::V2::OAuth.new self
+      @oauth ||= FCC4D::Core::V2::OAuth.new self
     end
 
     def partners
-      @partners ||= FCC4D::V2::API::Partners.new self
+      @partners ||= FCC4D::Core::V2::Partners.new self
     end
 
     def verification
-      @verification ||= FCC4D::V2::API::Verification.new self
+      @verification ||= FCC4D::Core::V2::Verification.new self
     end
 
     def get content_type, api_call_path

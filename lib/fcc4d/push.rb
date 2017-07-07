@@ -1,6 +1,6 @@
 module FCC4D
-  module V2
-    module API
+  module Core
+    module V2
       class Push < Resource
         def notification recipients, options = {}
           params = {

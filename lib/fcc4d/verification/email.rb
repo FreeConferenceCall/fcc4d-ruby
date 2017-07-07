@@ -1,6 +1,6 @@
 module FCC4D
-  module V2
-    module API
+  module Core
+    module V2
       class Verification
         class Email < Resource
           def create options = {} 
