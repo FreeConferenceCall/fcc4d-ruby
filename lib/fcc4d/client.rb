@@ -42,55 +42,64 @@ module FCC4D
       @verification ||= FCC4D::Core::V2::Verification.new self
     end
 
+    def storage
+      @storage ||= FCC4D::Core::V2::Storage.new self
+    end
+
     def get content_type, api_call_path
-      api_call content_type, Net::HTTP::Get, api_call_path, nil
+      api_call content_type, :get, api_call_path, nil
     end
 
     def post content_type, api_call_path, data = nil
-      api_call content_type, Net::HTTP::Post, api_call_path, data
+      api_call content_type, :post, api_call_path, data
     end
 
     def put content_type, api_call_path, data
-      api_call content_type, Net::HTTP::Put, api_call_path, data
+      api_call content_type, :put, api_call_path, data
     end
 
     def patch content_type, api_call_path, data
-      api_call content_type, Net::HTTP::Patch, api_call_path, data
+      api_call content_type, :patch, api_call_path, data
     end
 
     private
 
-    def api_call content_type, request_class, api_call_path, data
-      path = File.join(@uri.to_s, api_call_path) 
-
-      request = request_class.new(path, headers[content_type])
-
-      unless @auth_token
-        if @username && @password
-          request.basic_auth @username, @password
-        end
-      end
-
+    def api_call content_type, request_method, api_call_path, data
       if data
         if content_type == :json
-          request.body = data.to_json
-        elsif content_type == :form
-          request.form_data = data
+          data = data.to_json
         end
       end
 
 
-      connection = Net::HTTP.new(@uri.hostname, @uri.port)
-      connection.use_ssl = @uri.scheme == 'https'
-      connection.set_debug_output $stderr if @debug_http == true
+      connection = Faraday.new(url: @uri.scheme + '://' + @uri.host) do |f|
+        if content_type == :multipart
+          f.request content_type
+        else
+          f.request :url_encoded
+        end
+        f.response :logger, ::Logger.new(STDOUT), bodies: true
+        f.adapter Faraday.default_adapter
+        f.headers = headers[content_type]
+        f.options.open_timeout = @timeout
+        f.options.timeout = @timeout
 
-
-      if @timeout > 0
-        connection.read_timeout = connection.open_timeout = @timeout
+        unless @auth_token
+          if @username && @password
+            f.basic_auth @username, @password
+          end
+        end
       end
+       
+      api_call = [request_method, api_call_path]
+      api_call << data unless request_method == :get
 
-      response = connection.start do |http|
-        http.request(request)
+      response = connection.send(*api_call)
+
+      if response.body and !response.body.empty?
+        object = response.body
+      elsif response.status == 400
+        object = { message: 'Bad request', code: 400 }.to_json
       end
 
       JSON::parse response.body
@@ -99,7 +108,8 @@ module FCC4D
     def headers
       @headers ||= {
         json: base_headers.merge('Content-Type' => 'application/json'),
-        form: base_headers.merge('Content-Type' => 'application/x-www-form-urlencoded')
+        form: base_headers.merge('Content-Type' => 'application/x-www-form-urlencoded'),
+        multipart: base_headers.merge('Content-Type' => 'multipart/form-data')
       }
     end
 

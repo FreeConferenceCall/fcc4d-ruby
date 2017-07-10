@@ -9,4 +9,6 @@ Gem::Specification.new do |s|
   s.files       = ["lib/fcc4d.rb"]
   s.homepage    = 'http://rubygems.org/gems/fcc4d'
   s.license     = 'MIT'
+
+  s.add_dependency('faraday', '~>0.9')
 end
