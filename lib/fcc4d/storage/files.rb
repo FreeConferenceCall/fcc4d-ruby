@@ -11,6 +11,8 @@ module FCC4D
               integer_key_2: options[:integer_key_2],
               string_key_1: options[:string_key_1],
               string_key_2: options[:string_key_2],
+              publish: options[:publish],
+              file_access_name: options[:file_access_name]
             }
             params = {
               data: file,
