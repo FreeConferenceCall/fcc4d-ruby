@@ -22,7 +22,17 @@ module FCC4D
           end
 
           def find sid
-            client.post @content_type, api_path(sid)
+            client.get @content_type, api_path(sid)
+          end
+
+          def search options
+            params = {
+              offset: options[:offset] || 0,
+              limit: options[:limit] || 0,
+              filter: options[:filter],
+              order: options[:order]
+            }
+            client.get @content_type, api_path(nil , params)
           end
         end
       end
