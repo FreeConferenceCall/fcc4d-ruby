@@ -25,6 +25,10 @@ module FCC4D
             client.get @content_type, api_path(sid)
           end
 
+          def delete sid
+            client.delete @content_type, api_path(sid)
+          end
+
           def search options
             params = {
               offset: options[:offset] || 0,

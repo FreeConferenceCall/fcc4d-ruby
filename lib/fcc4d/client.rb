@@ -62,6 +62,10 @@ module FCC4D
       api_call content_type, :patch, api_call_path, data
     end
 
+    def delete content_type, api_call_path
+      api_call content_type, :delete, api_call_path, nil
+    end
+
     private
 
     def api_call content_type, request_method, api_call_path, data
@@ -97,12 +101,14 @@ module FCC4D
       response = connection.send(*api_call)
 
       if response.body and !response.body.empty?
-        object = response.body
+        object = JSON::parse response.body
+      elsif response.status == 204
+        object = {}
       elsif response.status == 400
         object = { message: 'Bad request', code: 400 }.to_json
       end
 
-      JSON::parse response.body
+      object
     end
 
     def headers
