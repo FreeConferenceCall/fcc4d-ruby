@@ -82,7 +82,7 @@ module FCC4D
         else
           f.request :url_encoded
         end
-        f.response :logger, ::Logger.new(STDOUT), bodies: true
+        f.response(:logger, ::Logger.new(STDOUT), bodies: true) if @debug_http == true
         f.adapter Faraday.default_adapter
         f.headers = headers[content_type]
         f.options.open_timeout = @timeout
