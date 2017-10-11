@@ -5,9 +5,18 @@ module FCC4D
         def notification recipients, options = {}
           params = {
             recipients: [*recipients],
-            message: options[:message],
             ttl: options[:ttl] || 60,
-            priority: options[:priority]
+            priority: options[:priority],
+            title: options[:title],
+            body: options[:body],
+            data: options[:data],
+            notification_sid: options[:notification_sid],
+            ios_sound: options[:ios_sound],
+            ios_badge: options[:ios_badge],
+            ios_category: options[:ios_category],
+            android_sound: options[:android_sound],
+            android_icon: options[:android_icon],
+            android_click_action: options[:android_click_action]
           }
           client.post @content_type, api_path('notifications'), params
         end
