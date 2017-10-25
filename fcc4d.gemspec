@@ -1,6 +1,8 @@
+require File.expand_path('../lib/fcc4d/version', __FILE__)
+
 Gem::Specification.new do |s|
   s.name        = 'fcc4d'
-  s.version     = '0.0.0'
+  s.version     = FCC4D::VERSION
   s.date        = '2016-10-31'
   s.summary     = "FCC4D API"
   s.description = "FCC4D API wrapper"

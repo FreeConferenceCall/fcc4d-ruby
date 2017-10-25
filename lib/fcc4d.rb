@@ -3,6 +3,8 @@ require 'uri'
 require 'json'
 require 'faraday'
 
+require 'fcc4d/version'
+
 require 'fcc4d/client'
 require 'fcc4d/resource'
 
