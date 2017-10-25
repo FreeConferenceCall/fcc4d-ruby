@@ -18,7 +18,7 @@ module FCC4D
           end
 
           def find sid
-            client.post @content_type, api_path(sid)
+            client.get @content_type, api_path(sid)
           end
 
           def patch sid, options
