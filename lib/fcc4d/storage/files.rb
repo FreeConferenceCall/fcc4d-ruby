@@ -38,6 +38,32 @@ module FCC4D
             }
             client.get @content_type, api_path(nil , params)
           end
+
+          def patch sid, options, file = nil
+            file_object = [
+              :name, 
+              :container_sid, 
+              :integer_key_1, 
+              :integer_key_2,
+              :string_key_1,
+              :string_key_2,
+              :publish,
+              :file_access_name
+            ].inject({}) do |res, key|
+              if options.keys.include? key
+                res[key] = options[key]
+              end
+              res
+            end
+
+            params = {
+              file_object: file_object.to_json
+            }
+
+            params[:file] = file if file.present?
+
+            client.patch :multipart, api_path(sid), params
+          end
         end
       end
     end
