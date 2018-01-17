@@ -20,7 +20,8 @@ module FCC4D
             billing_email: options[:billing_email],
             tech_email: options[:tech_email],
             company_name: options[:company_name],
-            phonenumber: options[:phonenumber]
+            phonenumber: options[:phonenumber],
+            attributes: options[:attributes]
           }
 
           client.post @content_type, api_path, params
