@@ -5,6 +5,10 @@ module FCC4D
         def dids did, options = {}
           client.get @content_type, api_path(['dids', did])
         end
+
+        def ip_addresses ip
+          client.get @content_type, api_path(['ip_addresses', ip])
+        end
       end
     end
   end
