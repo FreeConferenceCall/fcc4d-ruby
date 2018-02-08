@@ -5,6 +5,7 @@ module FCC4D
         class Files < Resource
           def upload file, options = {} 
             file_object = {
+              type: options[:type],
               name: options[:name],
               container_sid: options[:container_sid],
               integer_key_1: options[:integer_key_1],
