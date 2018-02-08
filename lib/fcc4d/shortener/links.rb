@@ -7,7 +7,8 @@ module FCC4D
             params = {
               destination_url: options[:destination_url],
               domain_sid: options[:domain_sid],
-              maximum_ttl: options[:maximum_ttl] || "-1"
+              maximum_ttl: options[:maximum_ttl] || "-1",
+              reuse: options[:reuse] == false ? false : true
             }
             client.post @content_type, api_path, params
           end
