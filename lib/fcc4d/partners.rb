@@ -24,7 +24,13 @@ module FCC4D
             attributes: options[:attributes]
           }
 
-          client.post @content_type, api_path, params
+          if options[:verification_token].present?
+            request_path = api_path(nil, verification_token: options[:verification_token])
+          else
+            request_path = api_path
+          end
+
+          client.post @content_type, request_path, params
         end
 
         def search options
