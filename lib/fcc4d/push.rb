@@ -14,6 +14,7 @@ module FCC4D
             ios_sound: options[:ios_sound],
             ios_badge: options[:ios_badge],
             ios_category: options[:ios_category],
+            ios_mutable_content: options[:ios_mutable_content],
             android_sound: options[:android_sound],
             android_icon: options[:android_icon],
             android_click_action: options[:android_click_action]
