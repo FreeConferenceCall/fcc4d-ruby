@@ -27,6 +27,8 @@ module FCC4D
             params[:integer_key_2] = options[:integer_key_2] if options[:integer_key_2]
             params[:string_key_1] = options[:string_key_1] if options[:string_key_1]
             params[:string_key_2] = options[:string_key_2] if options[:string_key_2]
+            params[:quota_files] = options[:quota_files] if options[:quota_files]
+            params[:quota_bytes] = options[:quota_bytes] if options[:quota_bytes]
             client.patch @content_type, api_path(sid), params
           end
         end
