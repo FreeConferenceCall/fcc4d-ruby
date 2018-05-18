@@ -58,6 +58,10 @@ module FCC4D
       api_call content_type, :post, api_call_path, data
     end
 
+    def post_without_authorization content_type, api_call_path, data = nil
+      api_call content_type, :post, api_call_path, data, authorization: false
+    end
+
     def put content_type, api_call_path, data
       api_call content_type, :put, api_call_path, data
     end
@@ -72,7 +76,7 @@ module FCC4D
 
     private
 
-    def api_call content_type, request_method, api_call_path, data
+    def api_call content_type, request_method, api_call_path, data, options = {}
       if data
         if content_type == :json
           data = data.to_json
@@ -92,9 +96,11 @@ module FCC4D
         f.options.open_timeout = @timeout
         f.options.timeout = @timeout
 
-        unless @auth_token
-          if @username && @password
-            f.basic_auth @username, @password
+        unless options[:authorization] == false
+          unless @auth_token
+            if @username && @password
+              f.basic_auth @username, @password
+            end
           end
         end
       end

@@ -3,17 +3,18 @@ module FCC4D
     module V2
       class OAuth < Resource
         def token options = {}
-          params = {
-            grant_type: options[:grant_type],
+          params = { 
+            scope: 'trust',
             client_id: options[:client_id] || client.client_id,
-            client_secret: options[:client_secret] || client.client_secret,
-            username: options[:username],
-            password: options[:password],
-            refresh_token: options[:refresh_token],
-            scope: 'trust' 
+            client_secret: options[:client_secret] || client.client_secret
           }
 
-          client.post @content_type, api_path('token', params), nil
+          params[:grant_type] = options[:grant_type] if options[:grant_type].present?
+          params[:username] = options[:username] if options[:username].present?
+          params[:password] = options[:password] if options[:password].present?
+          params[:refresh_token] = options[:refresh_token] if options[:refresh_token].present?
+
+          client.post_without_authorization @content_type, api_path('token', params)
         end
 
         def whoami
@@ -27,7 +28,7 @@ module FCC4D
             scope: 'trust' 
           }
 
-          client.post @content_type, api_path(['token', partner_sid], params), nil
+          client.post @content_type, api_path(['token', partner_sid], params)
         end
 
       end
