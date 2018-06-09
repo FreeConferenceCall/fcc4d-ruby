@@ -13,7 +13,8 @@ module FCC4D
               string_key_1: options[:string_key_1],
               string_key_2: options[:string_key_2],
               publish: options[:publish],
-              file_access_name: options[:file_access_name]
+              file_access_name: options[:file_access_name],
+              desired_format: options[:desired_format]
             }
             params = {
               data: file,
