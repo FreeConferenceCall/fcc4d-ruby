@@ -62,9 +62,14 @@ module FCC4D
               file_object: file_object.to_json
             }
 
-            params[:file] = file if file.present?
+            if file.present?
+              content_type = :miltipart
+              params[:file] = file if file.present?
+            else
+              content_type = :json
+            end
 
-            client.patch :multipart, api_path(sid), params
+            client.patch content_type, api_path(sid), params
           end
         end
       end
