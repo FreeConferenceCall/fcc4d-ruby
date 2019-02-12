@@ -31,7 +31,7 @@ module FCC4D
     end
 
     def oauth
-      @oauth ||= FCC4D::Core::V2::OAuth.new self
+      @oauth ||= FCC4D::Core::V2::OAuth.new self, content_type: :form
     end
 
     def partners

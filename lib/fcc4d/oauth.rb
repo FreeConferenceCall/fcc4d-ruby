@@ -4,7 +4,6 @@ module FCC4D
       class OAuth < Resource
         def token options = {}
           params = { 
-            scope: 'trust',
             client_id: options[:client_id] || client.client_id,
             client_secret: options[:client_secret] || client.client_secret
           }
@@ -14,7 +13,7 @@ module FCC4D
           params[:password] = options[:password] if options[:password].present?
           params[:refresh_token] = options[:refresh_token] if options[:refresh_token].present?
 
-          client.post_without_authorization @content_type, api_path('token', params)
+          client.post_without_authorization @content_type, api_path('token'), params
         end
 
         def whoami
@@ -28,7 +27,7 @@ module FCC4D
             scope: 'trust' 
           }
 
-          client.post @content_type, api_path(['token', partner_sid], params)
+          client.post @content_type, api_path('token', partner_sid), params
         end
 
       end
