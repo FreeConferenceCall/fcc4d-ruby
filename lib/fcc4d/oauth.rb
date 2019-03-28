@@ -24,8 +24,12 @@ module FCC4D
           params = {
             client_id: options[:client_id] || client.client_id,
             client_secret: options[:client_secret] || client.client_secret,
-            scope: options[:scope] || 'trust' 
+            scope: options[:scope]
           }
+
+          if options[:name].present?
+            params[:name] = options[:name]
+          end
 
           client.post @content_type, api_path(['token', partner_sid]), params
         end
