@@ -27,7 +27,7 @@ module FCC4D
             scope: options[:scope] || 'trust' 
           }
 
-          client.post @content_type, api_path('token', partner_sid), params
+          client.post @content_type, api_path(['token', partner_sid]), params
         end
 
       end
