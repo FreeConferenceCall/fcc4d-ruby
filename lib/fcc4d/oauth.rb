@@ -41,7 +41,7 @@ module FCC4D
             token: token
           }
 
-          client.post @content_type, api_path('revoke', params)
+          client.post @content_type, api_path('revoke'), params
         end
 
       end
