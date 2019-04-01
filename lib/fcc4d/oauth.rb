@@ -34,6 +34,16 @@ module FCC4D
           client.post @content_type, api_path(['token', partner_sid]), params
         end
 
+        def revoke_token token, options = {}
+          params = {
+            client_id: options[:client_id] || client.client_id,
+            client_secret: options[:client_secret] || client.client_secret,
+            token: token
+          }
+
+          client.post @content_type, api_path('revoke', params)
+        end
+
       end
     end
   end
