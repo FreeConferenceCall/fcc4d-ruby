@@ -12,6 +12,7 @@ module FCC4D
           params[:username] = options[:username] if options[:username].present?
           params[:password] = options[:password] if options[:password].present?
           params[:refresh_token] = options[:refresh_token] if options[:refresh_token].present?
+          params[:name] = options[:name] if options[:name].present?
 
           client.post_without_authorization @content_type, api_path('token'), params
         end
@@ -24,12 +25,11 @@ module FCC4D
           params = {
             client_id: options[:client_id] || client.client_id,
             client_secret: options[:client_secret] || client.client_secret,
-            scope: options[:scope]
+            scope: options[:scope],
+            access_token_expires_in: options[:access_token_expires_in] || 3153600000
           }
 
-          if options[:name].present?
-            params[:name] = options[:name]
-          end
+          params[:name] = options[:name] if options[:name].present?
 
           client.post @content_type, api_path(['token', partner_sid]), params
         end
