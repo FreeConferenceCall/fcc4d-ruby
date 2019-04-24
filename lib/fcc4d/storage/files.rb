@@ -16,6 +16,9 @@ module FCC4D
               file_access_name: options[:file_access_name],
               desired_format: options[:desired_format]
             }
+            file_object[:lifecycle_action] = options[:lifecycle_action] if options[:lifecycle_action].present?
+            file_object[:lifecycle_ttl] = options[:lifecycle_ttl] if options[:lifecycle_ttl].present?
+
             params = {
               data: file,
               file_object: file_object.to_json
