@@ -50,6 +50,10 @@ module FCC4D
       @shortener ||= FCC4D::Core::V2::Shortener.new self
     end
 
+    def conference
+      @conference ||= FCC4D::Conference::V1.new self
+    end
+
     def get content_type, api_call_path
       api_call content_type, :get, api_call_path, nil
     end
