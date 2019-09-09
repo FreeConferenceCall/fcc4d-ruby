@@ -9,6 +9,10 @@ module FCC4D
         def  get options = {} 
           client.get @content_type, api_path
         end
+
+        def find id
+          client.get @content_type, api_path(id)
+        end
       end
     end
   end

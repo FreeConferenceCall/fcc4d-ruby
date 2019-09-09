@@ -14,6 +14,14 @@ module FCC4D
           params = options
           client.post @content_type, api_path, params
         end
+
+        def find meeting_number
+          client.get @content_type, api_path(meeting_number)
+        end
+
+        def delete meeting_number
+          client.delete @content_type, api_path(meeting_number)
+        end
       end
     end
   end
