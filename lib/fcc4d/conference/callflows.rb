@@ -6,7 +6,7 @@ module FCC4D
           super(client, resource_path: 'conference/v1/callFlows')
         end
 
-        def  get options = {} 
+        def get options = {} 
           client.get @content_type, api_path(nil, excludeFields: 'attributeTemplates')
         end
       end
