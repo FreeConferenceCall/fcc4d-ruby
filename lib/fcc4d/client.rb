@@ -2,7 +2,7 @@ module FCC4D
   class Client
     attr_reader :client_id, :client_secret
 
-    def initialize options = {}
+    def initialize options = {}, &block
       @auth_token = options[:auth_token]
       @token_type = (options[:token_type].to_s || 'bearer').capitalize
       @username = options[:username]
@@ -12,6 +12,7 @@ module FCC4D
       @client_secret = options[:client_secret]
       @debug_http = options[:debug_http]
       @timeout = options[:timeout].to_i
+      @block = block if block_given?
     end
 
     def sms
@@ -104,6 +105,8 @@ module FCC4D
         f.options.open_timeout = @timeout
         f.options.timeout = @timeout
 
+        instance_exec(f, &@block) if @block
+
         unless options[:authorization] == false
           unless @auth_token
             if @username && @password
@@ -112,7 +115,7 @@ module FCC4D
           end
         end
       end
-       
+
       api_call = [request_method, api_call_path]
       api_call << data unless request_method == :get
 
