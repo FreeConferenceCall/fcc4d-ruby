@@ -9,12 +9,16 @@ module FCC4D
         @callflows ||= CallFlows.new @client
       end
 
+      def did_groups
+        @didgroups ||= DidGroups.new @client
+      end
+
       def meeting_rooms
         @meetingrooms ||= MeetingRooms.new @client
       end
 
-      def did_groups
-        @didgroups ||= DidGroups.new @client
+      def meetings
+        @meetings ||= Meetings.new @client
       end
     end
   end
