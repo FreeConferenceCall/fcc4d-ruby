@@ -13,6 +13,12 @@ module FCC4D
         def delete meeting_number
           client.delete @content_type, api_path(meeting_number)
         end
+
+        def put meeting_number, options
+          params = {}
+          params[:isRecording] = options[:isRecording]
+          client.put @content_type, api_path(meeting_number), params
+        end
       end
     end
   end
