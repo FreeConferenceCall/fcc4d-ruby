@@ -9,6 +9,10 @@ module FCC4D
         @callflows ||= CallFlows.new @client
       end
 
+      def cdrs
+        @cdrs ||= Cdrs.new @client
+      end
+
       def did_groups
         @didgroups ||= DidGroups.new @client
       end
