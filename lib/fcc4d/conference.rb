@@ -17,6 +17,10 @@ module FCC4D
         @didgroups ||= DidGroups.new @client
       end
 
+      def mdrs
+        @mdrs ||= Mdrs.new @client
+      end
+
       def meeting_rooms
         @meetingrooms ||= MeetingRooms.new @client
       end
