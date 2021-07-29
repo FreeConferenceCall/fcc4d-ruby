@@ -13,4 +13,7 @@ Gem::Specification.new do |s|
   s.license     = 'MIT'
 
   s.add_dependency('faraday', '~>1.0')
+  s.add_dependency('faraday_middleware')
+  s.add_dependency('faraday-net_http_persistent')
+  s.add_dependency('net-http-persistent', '>= 3.1')
 end

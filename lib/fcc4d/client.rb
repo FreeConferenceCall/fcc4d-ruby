@@ -2,7 +2,7 @@ module FCC4D
   class Client
     attr_reader :client_id, :client_secret
 
-    def initialize options = {}, &block
+    def initialize options = {}
       @auth_token = options[:auth_token]
       @token_type = (options[:token_type].to_s || 'bearer').capitalize
       @username = options[:username]
@@ -12,7 +12,7 @@ module FCC4D
       @client_secret = options[:client_secret]
       @debug_http = options[:debug_http]
       @timeout = options[:timeout].to_i
-      @block = block if block_given?
+      @middlewares = options[:middlewares]
     end
 
     def sms
@@ -86,14 +86,12 @@ module FCC4D
     private
 
     def api_call content_type, request_method, api_call_path, data, options = {}
-      if data
-        if content_type == :json
-          data = data.to_json
-        end
-      end
-
+      data = data.to_json if data && content_type == :json
 
       connection = Faraday.new(url: @uri.scheme + '://' + @uri.host) do |f|
+        @middlewares&.each do |middleware|
+          f.use middleware
+        end
         if content_type == :multipart
           f.request content_type
         else
@@ -105,15 +103,8 @@ module FCC4D
         f.options.open_timeout = @timeout
         f.options.timeout = @timeout
 
-        instance_exec(f, &@block) if @block
-
-        unless options[:authorization] == false
-          unless @auth_token
-            if @username && @password
-              f.basic_auth @username, @password
-            end
-          end
-        end
+        f.basic_auth @username, @password if options[:authorization] != false && !@auth_token && @username && @password
+        f.adapter :net_http_persistent
       end
 
       api_call = [request_method, api_call_path]
@@ -121,8 +112,8 @@ module FCC4D
 
       response = connection.send(*api_call)
 
-      if response.body and !response.body.empty?
-        object = JSON::parse response.body
+      if response.body && !response.body.empty?
+        object = JSON.parse response.body
       elsif response.status == 204
         object = {}
       elsif response.status == 400
