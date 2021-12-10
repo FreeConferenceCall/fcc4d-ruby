@@ -55,6 +55,10 @@ module FCC4D
       @conference ||= FCC4D::Conference::V1.new self
     end
 
+    def flexml
+      @flexml ||= FCC4D::Flexml::V1.new self
+    end
+
     def mediator
       @mediator ||= FCC4D::Mediator::V1.new self
     end
