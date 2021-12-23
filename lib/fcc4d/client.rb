@@ -4,7 +4,7 @@ module FCC4D
 
     def initialize options = {}
       @auth_token = options[:auth_token]
-      @token_type = (options[:token_type].to_s || 'bearer').capitalize
+      @token_type = (options[:token_type] || 'bearer').to_s.capitalize
       @username = options[:username]
       @password = options[:password]
       @uri = URI(options[:endpoint] || 'https://api.carrierx.com')
