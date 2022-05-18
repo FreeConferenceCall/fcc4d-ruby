@@ -29,5 +29,15 @@ module FCC4D
         @meetings ||= Meetings.new @client
       end
     end
+
+    class V2
+      def initialize client
+        @client = client
+      end
+
+      def meeting_rooms
+        @meeting_rooms ||= MeetingRooms.new @client
+      end
+    end
   end
 end

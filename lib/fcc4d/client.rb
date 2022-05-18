@@ -55,6 +55,10 @@ module FCC4D
       @conference ||= FCC4D::Conference::V1.new self
     end
 
+    def conference_v2
+      @conference_v2 ||= FCC4D::Conference::V2.new self
+    end
+
     def flexml
       @flexml ||= FCC4D::Flexml::V1.new self
     end
