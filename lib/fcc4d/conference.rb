@@ -40,7 +40,7 @@ module FCC4D
       end
 
       def meetings
-        @meeting_rooms ||= Meetings.new @client
+        @meetings ||= Meetings.new @client
       end
     end
   end
