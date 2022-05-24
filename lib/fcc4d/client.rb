@@ -67,6 +67,10 @@ module FCC4D
       @mediator ||= FCC4D::Mediator::V1.new self
     end
 
+    def app
+      @app ||= FCC4D::Core::V2::App.new self
+    end
+
     def get content_type, api_call_path
       api_call content_type, :get, api_call_path, nil
     end
