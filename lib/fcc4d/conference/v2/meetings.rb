@@ -20,6 +20,10 @@ module FCC4D
         def delete meeting_sid
           client.delete @content_type, api_path(meeting_sid)
         end
+
+        def events meeting_sid
+          client.get @content_type, api_path([meeting_sid, 'events'])
+        end
       end
     end
   end
