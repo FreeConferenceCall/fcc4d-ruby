@@ -1,7 +1,10 @@
+# frozen_string_literal: true
+
 require 'net/http'
 require 'uri'
 require 'json'
 require 'faraday'
+require 'faraday/net_http_persistent'
 
 require 'fcc4d/version'
 
