@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module FCC4D
   class Client
     attr_reader :client_id, :client_secret
@@ -101,9 +103,7 @@ module FCC4D
       data = data.to_json if data && content_type == :json
 
       connection = Faraday.new(url: @uri.scheme + '://' + @uri.host) do |f|
-        @middlewares&.each do |middleware|
-          f.use middleware
-        end
+        @middlewares&.each { |middleware| f.use middleware }
         if content_type == :multipart
           f.request content_type
         else
@@ -115,7 +115,9 @@ module FCC4D
         f.options.open_timeout = @timeout
         f.options.timeout = @timeout
 
-        f.basic_auth @username, @password if options[:authorization] != false && !@auth_token && @username && @password
+        if options[:authorization] != false && !@auth_token && @username && @password
+          f.request :authorization, :basic, @username, @password
+        end
         f.adapter :net_http_persistent
       end
 

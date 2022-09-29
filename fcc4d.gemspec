@@ -1,4 +1,6 @@
-require File.expand_path('../lib/fcc4d/version', __FILE__)
+# frozen_string_literal: true
+
+require_relative 'lib/fcc4d/version'
 
 Gem::Specification.new do |s|
   s.name        = 'fcc4d'
@@ -12,8 +14,7 @@ Gem::Specification.new do |s|
   s.homepage    = 'http://rubygems.org/gems/fcc4d'
   s.license     = 'MIT'
 
-  s.add_dependency('faraday', '~>1.0')
-  s.add_dependency('faraday_middleware')
+  s.add_dependency('faraday', '~> 2.0')
   s.add_dependency('faraday-net_http_persistent')
   s.add_dependency('net-http-persistent', '>= 3.1')
 end
