@@ -53,8 +53,8 @@ module FCC4D
       @shortener ||= FCC4D::Core::V2::Shortener.new self
     end
 
-    def text_to_speech
-      @text_to_speech ||= FCC4D::Core::V2::TextToSpeech.new(self, resource_path: '/core/v2/tts/texts')
+    def tts
+      @tts ||= FCC4D::Core::V2::Tts.new self
     end
 
     def conference
