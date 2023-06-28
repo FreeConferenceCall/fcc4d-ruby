@@ -53,6 +53,10 @@ module FCC4D
       @shortener ||= FCC4D::Core::V2::Shortener.new self
     end
 
+    def tts
+      @tts ||= FCC4D::Core::V2::Tts.new self
+    end
+
     def conference
       @conference ||= FCC4D::Conference::V1.new self
     end
