@@ -17,6 +17,16 @@ module FCC4D
             client.post @content_type, api_path(nil, {reuse: reuse}), params
           end
 
+          def search options
+            params = {
+              offset: options[:offset] || 0,
+              limit: options[:limit] || 0,
+              filter: options[:filter],
+              order: options[:order]
+            }
+            client.get @content_type, api_path(nil , params)
+          end
+
         end
       end
     end
