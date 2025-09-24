@@ -9,6 +9,9 @@ module FCC4D
               domain_sid: options[:domain_sid],
               maximum_ttl: options[:maximum_ttl] || "-1",
             }
+            if options[:short_name].present?
+              params[:short_name] = options[:short_name]
+            end
 
             reuse = options[:reuse] == false ? false : true
             client.post @content_type, api_path(nil, {reuse: reuse}), params
